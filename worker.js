@@ -1,4 +1,3 @@
-// debug v2
 export default {
   async fetch(request, env, ctx) {
     const corsHeaders = {
@@ -13,26 +12,17 @@ export default {
     }
 
     const url = new URL(request.url);
-    console.log("Request path:", url.pathname, "Method:", request.method);
 
-    if (url.pathname === "/api/login" && request.method === "POST") {
-      try {
-        const body = await request.json();
-        return new Response(JSON.stringify({
-          status: true,
-          msg: "Debug OK - Worker running",
-          key: body.key || "",
-          hwid: body.hwid || "",
-          hasKV: env.LICENSE_KV ? true : false
-        }), { headers: corsHeaders });
-      } catch (e) {
-        return new Response(JSON.stringify({
-          status: false,
-          msg: "Error: " + e.message
-        }), { headers: corsHeaders });
-      }
-    }
-
-    return new Response(JSON.stringify({ status: false, msg: "Not found" }), { headers: corsHeaders });
+    // DEBUG: return info apapun yang masuk
+    return new Response(JSON.stringify({
+      status: true,
+      msg: "Debug Info",
+      method: request.method,
+      pathname: url.pathname,
+      full_url: url.href,
+      hasKV: env.LICENSE_KV ? true : false,
+      matches_api_login: url.pathname === "/api/login",
+      matches_post: request.method === "POST"
+    }), { headers: corsHeaders });
   }
 };
