@@ -1,3 +1,4 @@
+// debug v2
 export default {
   async fetch(request, env, ctx) {
     const corsHeaders = {
@@ -12,31 +13,18 @@ export default {
     }
 
     const url = new URL(request.url);
+    console.log("Request path:", url.pathname, "Method:", request.method);
 
-    // Test route
-    if (url.pathname === "/test") {
-      return new Response(JSON.stringify({
-        status: true,
-        msg: "Worker active",
-        hasKV: env.LICENSE_KV ? true : false
-      }), { headers: corsHeaders });
-    }
-
-    // Login route
     if (url.pathname === "/api/login" && request.method === "POST") {
       try {
         const body = await request.json();
-        const key = (body.key || "").trim().toUpperCase();
-        const hwid = (body.hwid || "").trim();
-
         return new Response(JSON.stringify({
           status: true,
           msg: "Debug OK - Worker running",
-          key: key,
-          hwid: hwid,
+          key: body.key || "",
+          hwid: body.hwid || "",
           hasKV: env.LICENSE_KV ? true : false
         }), { headers: corsHeaders });
-
       } catch (e) {
         return new Response(JSON.stringify({
           status: false,
