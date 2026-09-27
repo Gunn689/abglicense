@@ -1,0 +1,7 @@
+name = "abg-license"
+main = "worker.js"
+compatibility_date = "2025-09-27"
+
+[[kv_namespaces]]
+binding = "LICENSE_KV"
+id = "GANTI_NANTI"
