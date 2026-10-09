@@ -1,4 +1,4 @@
-name = "abglicense"
+name = "abg-license"
 main = "worker.js"
 compatibility_date = "2025-09-27"
 
